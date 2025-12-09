@@ -12,7 +12,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
 
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'logo-update', label: 'Logo Update' }, // Added for easy access
     { id: 'services', label: 'Our Services' },
     { id: 'about', label: 'About Us' },
     { id: 'contact', label: 'Contact' },

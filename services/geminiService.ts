@@ -3,15 +3,14 @@ import { AIAnalysisResult } from "../types";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-const MODEL_NAME = 'gemini-2.5-flash';
-
 export const analyzeIndustrialImage = async (
   base64Image: string, 
   mimeType: string
 ): Promise<AIAnalysisResult> => {
   try {
+    // Use gemini-2.5-flash for multimodal/vision tasks
     const response: GenerateContentResponse = await ai.models.generateContent({
-      model: MODEL_NAME,
+      model: 'gemini-2.5-flash',
       contents: {
         parts: [
           {
@@ -57,8 +56,9 @@ export const consultOperations = async (
     
     Provide a strategic, actionable answer focusing on efficiency, cost-reduction, and safety. Use technical terminology appropriate for a factory manager.`;
 
+    // Use gemini-3-pro-preview for complex reasoning tasks
     const response: GenerateContentResponse = await ai.models.generateContent({
-      model: MODEL_NAME,
+      model: 'gemini-3-pro-preview',
       contents: prompt,
     });
 

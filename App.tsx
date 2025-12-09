@@ -4,7 +4,6 @@ import { Hero } from './components/Hero';
 import { Services } from './components/Features';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
-import { LogoManager } from './components/LogoManager';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -17,12 +16,9 @@ const App: React.FC = () => {
             <Hero onGetStarted={() => setActiveTab('services')} onContact={() => setActiveTab('contact')} />
             <About />
             <Services />
-            <LogoManager />
             <Contact />
           </>
         );
-      case 'logo-update':
-        return <LogoManager />;
       case 'services':
         return <Services />;
       case 'about':
