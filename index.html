@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mutha Lakshmi Industries - Precision Job Work</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
@@ -23,6 +24,9 @@
                 text: '#E2E8F0',
                 muted: '#94A3B8'
               }
+            },
+            animation: {
+              'spin-slow': 'spin 3s linear infinite',
             }
           }
         }
@@ -51,23 +55,472 @@
         height: 4px;
         background-color: #FFD700;
       }
+      /* Simple fade in animation */
+      .fade-in {
+        animation: fadeIn 0.5s ease-in;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .hidden-section {
+        display: none !important;
+      }
+      .nav-active {
+        color: #FFD700 !important;
+        border-bottom: 2px solid #FFD700;
+      }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
     "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.32.0",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.32.0",
     "vite": "https://aistudiocdn.com/vite@^7.2.7",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.2"
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/"
   }
 }
 </script>
 </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+  <body class="selection:bg-brand-yellow selection:text-brand-blue">
+    
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-panel shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-24">
+          <div class="flex items-center cursor-pointer nav-link" data-target="home">
+            <!-- Brand Logo SVG inline -->
+            <svg viewBox="0 0 200 220" class="h-16 w-auto mr-3 filter drop-shadow-lg" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFD700" />
+                  <stop offset="40%" stopColor="#FDB931" />
+                  <stop offset="100%" stopColor="#FFD700" />
+                </linearGradient>
+              </defs>
+              <path d="M40 60 C40 60 20 25 20 25 L60 45 L100 5 L140 45 L180 25 C180 25 160 60 160 60 H40Z" fill="url(#goldGrad)" stroke="#B8860B" strokeWidth="2" strokeLinejoin="round" />
+              <circle cx="20" cy="25" r="5" fill="#FFD700" />
+              <circle cx="100" cy="5" r="6" fill="#FFD700" />
+              <circle cx="180" cy="25" r="5" fill="#FFD700" />
+              <path d="M20 70 H180 L100 210 L20 70Z" fill="#050505" stroke="url(#goldGrad)" strokeWidth="5" />
+              <rect x="18" y="65" width="164" height="6" fill="url(#goldGrad)" />
+              <path d="M55 100 V160 L85 130 L115 160 V100" stroke="white" strokeWidth="12" strokeLinecap="butt" strokeLinejoin="miter" fill="none" />
+              <path d="M135 100 V160 H170" stroke="white" strokeWidth="12" strokeLinecap="butt" fill="none" />
+            </svg>
+            <div class="flex flex-col">
+              <span class="text-xl sm:text-2xl font-display font-bold tracking-wider text-white uppercase">
+                MUTHA LAKSHMI
+              </span>
+              <span class="text-xs text-brand-yellow tracking-[0.2em] font-semibold">
+                INDUSTRIES
+              </span>
+            </div>
+          </div>
+          
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-center space-x-8">
+              <button class="nav-link px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all duration-300 text-gray-300 hover:text-white" data-target="home">Home</button>
+              <button class="nav-link px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all duration-300 text-gray-300 hover:text-white" data-target="services">Our Services</button>
+              <button class="nav-link px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all duration-300 text-gray-300 hover:text-white" data-target="about">About Us</button>
+              <button class="nav-link bg-brand-yellow hover:bg-brand-yellowHover text-brand-blue font-bold py-2 px-6 rounded-sm font-display transition-colors flex items-center shadow-lg" data-target="contact">
+                <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+                GET QUOTE
+              </button>
+            </div>
+          </div>
+
+          <div class="-mr-2 flex md:hidden">
+            <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-brand-yellow hover:text-white hover:bg-brand-blueLight focus:outline-none">
+              <i data-lucide="menu" class="h-8 w-8"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-brand-blue border-b border-brand-yellow">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <button class="nav-link-mobile block w-full text-left px-3 py-4 rounded-md text-base font-bold uppercase text-gray-300 hover:text-white hover:bg-white/5" data-target="home">Home</button>
+          <button class="nav-link-mobile block w-full text-left px-3 py-4 rounded-md text-base font-bold uppercase text-gray-300 hover:text-white hover:bg-white/5" data-target="services">Our Services</button>
+          <button class="nav-link-mobile block w-full text-left px-3 py-4 rounded-md text-base font-bold uppercase text-gray-300 hover:text-white hover:bg-white/5" data-target="about">About Us</button>
+          <button class="nav-link-mobile block w-full text-left px-3 py-4 rounded-md text-base font-bold uppercase text-gray-300 hover:text-white hover:bg-white/5" data-target="contact">Contact</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-0 min-h-screen">
+      
+      <!-- Hero Section -->
+      <section id="hero" class="app-section relative bg-brand-blue overflow-hidden min-h-screen flex items-center">
+        <div class="absolute inset-0 z-0">
+          <img class="w-full h-full object-cover opacity-40" src="https://images.unsplash.com/photo-1565043589221-1a6a33d266e6?q=80&w=3270&auto=format&fit=crop" alt="CNC Machine Industrial" />
+          <div class="absolute inset-0 bg-gradient-to-r from-brand-blue via-brand-blue/95 to-brand-blue/60"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+          <div class="lg:w-3/4">
+            <div class="inline-flex items-center px-4 py-2 rounded-sm border-l-4 border-brand-yellow bg-brand-blueLight/80 text-brand-yellow mb-8 backdrop-blur-sm">
+              <span class="text-sm font-bold tracking-widest uppercase">Precision in Every Cut</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight font-display leading-tight mb-8">
+              <span class="text-brand-yellow">MUTHA LAKSHMI</span> <br/>
+              INDUSTRIES
+            </h1>
+            
+            <p class="mt-4 text-xl text-gray-300 max-w-2xl mb-10 leading-relaxed font-light border-l border-brand-yellow/30 pl-6">
+              We specialize in delivering high-precision machining solutions tailored to your industrial needs. 
+              VMC, DRO Milling, and Custom Fabrication with unmatched accuracy and reliability in Coimbatore.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button data-target="services" class="nav-link inline-flex items-center justify-center px-8 py-4 border-2 border-brand-yellow bg-brand-yellow text-brand-blue text-lg font-bold uppercase tracking-wide hover:bg-white hover:border-white transition-all duration-300">
+                Our Services
+                <i data-lucide="settings" class="ml-2 h-5 w-5 animate-spin-slow"></i>
+              </button>
+              <button data-target="contact" class="nav-link inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white bg-transparent text-lg font-bold uppercase tracking-wide hover:bg-white hover:text-brand-blue transition-all duration-300">
+                Contact Us
+                <i data-lucide="chevron-right" class="ml-2 h-5 w-5"></i>
+              </button>
+            </div>
+
+            <div class="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4 border-t border-gray-700 pt-8">
+              <div>
+                <p class="text-3xl font-bold text-brand-yellow font-display">100%</p>
+                <p class="text-sm text-gray-400 mt-1 uppercase tracking-wider">Quality Assurance</p>
+              </div>
+              <div>
+                <p class="text-3xl font-bold text-brand-yellow font-display">On-Time</p>
+                <p class="text-sm text-gray-400 mt-1 uppercase tracking-wider">Delivery</p>
+              </div>
+              <div>
+                <p class="text-3xl font-bold text-brand-yellow font-display">Precision</p>
+                <p class="text-sm text-gray-400 mt-1 uppercase tracking-wider">Engineering</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="app-section py-20 bg-brand-blueLight border-y border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 class="text-brand-yellow font-bold tracking-widest uppercase mb-2">Who We Are</h2>
+              <h3 class="text-3xl md:text-4xl font-display font-bold text-white mb-6">
+                Trusted Excellence in <br/> Manufacturing
+              </h3>
+              <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                <strong class="text-white">Mutha Lakshmi Industries</strong> is a trusted name in precision job work located in <span class="text-brand-yellow">Ganapathy, Coimbatore</span>. With a strong commitment to quality, we deliver machining services that meet the highest engineering standards.
+              </p>
+              <p class="text-gray-400 mb-8">
+                Our team is skilled, experienced, and focused on providing cost-effective industrial solutions with timely delivery. Under the leadership of <strong class="text-white">K. Manikandan</strong>, we continue to serve various engineering applications with dependability.
+              </p>
+  
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex items-center text-white font-medium">
+                  <i data-lucide="check-circle-2" class="text-brand-yellow w-5 h-5 mr-3"></i> Quality Craftsmanship
+                </div>
+                <div class="flex items-center text-white font-medium">
+                  <i data-lucide="check-circle-2" class="text-brand-yellow w-5 h-5 mr-3"></i> On-Time Delivery
+                </div>
+                <div class="flex items-center text-white font-medium">
+                  <i data-lucide="check-circle-2" class="text-brand-yellow w-5 h-5 mr-3"></i> Customer Satisfaction
+                </div>
+                <div class="flex items-center text-white font-medium">
+                  <i data-lucide="check-circle-2" class="text-brand-yellow w-5 h-5 mr-3"></i> Advanced Technology & Tools
+                </div>
+              </div>
+            </div>
+            
+            <div class="relative">
+              <div class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-brand-yellow"></div>
+              <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-brand-yellow"></div>
+              <img 
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2670&auto=format&fit=crop" 
+                alt="Industrial Workshop" 
+                class="w-full h-auto shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="app-section py-24 bg-brand-blue relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-brand-yellow font-bold tracking-widest uppercase mb-2">What We Do</h2>
+            <h3 class="text-3xl md:text-5xl font-display font-bold text-white heading-underline pb-4">
+              Our Services
+            </h3>
+            <p class="mt-6 text-xl text-gray-400 max-w-3xl mx-auto">
+              From design to finished product, we provide comprehensive precision machining solutions.
+            </p>
+          </div>
+  
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Service Cards -->
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="cpu" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">VMC Work</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                High-precision Vertical Machining Center operations for complex components and accurate production.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="grid" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">DRO Milling Work</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Efficient and accurate milling solutions utilizing Digital Readout systems for various industrial parts.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="layers" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">Jig & Fixture</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Custom-designed jigs and fixtures to enhance machining accuracy, repeatability, and productivity.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="pen-tool" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">Jig Boring Work</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Precision boring operations for detailed and fine machining requirements demanding high tolerance.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="box" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">Mould & Die Works</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Manufacturing and finishing of moulds and dies with high durability and exact specifications.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="cog" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">SPM Works</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Special Purpose Machine job works customized to meet unique industrial and manufacturing needs.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="monitor" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">2D & 3D Design</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Professional CAD design services to support product development and machining processes.
+              </p>
+            </div>
+
+            <div class="group bg-brand-blueLight border border-gray-700 p-8 hover:border-brand-yellow transition-all duration-300 hover:transform hover:-translate-y-1">
+              <div class="bg-brand-blue p-3 inline-block rounded-sm mb-6 text-brand-yellow group-hover:bg-brand-yellow group-hover:text-brand-blue transition-colors duration-300">
+                <i data-lucide="file-code" class="h-8 w-8"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-3 font-display uppercase">CAM Program</h4>
+              <p class="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-3 group-hover:border-brand-blue/20">
+                Advanced Computer-Aided Manufacturing programming for optimized and efficient machine operations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="app-section bg-brand-blue py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-brand-yellow font-bold tracking-widest uppercase mb-2">Get In Touch</h2>
+            <h3 class="text-3xl md:text-5xl font-display font-bold text-white heading-underline pb-4">
+              Contact Us
+            </h3>
+          </div>
+  
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Contact Info Card -->
+            <div class="lg:col-span-1 bg-brand-blueLight p-8 border-t-4 border-brand-yellow shadow-xl">
+              <h4 class="text-2xl font-display font-bold text-white mb-8">Contact Info</h4>
+              
+              <div class="space-y-8">
+                <div class="flex items-start">
+                  <div class="bg-brand-blue p-3 rounded-sm border border-brand-yellow/30 text-brand-yellow mr-4 shrink-0">
+                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase text-gray-400 tracking-wider mb-1">Address</p>
+                    <p class="text-white font-medium leading-relaxed">
+                      SF No. 69/1, Malar Vizhi Thottam,<br/>
+                      Chinnavedampatti, Ganapathy,<br/>
+                      Coimbatore – 641006
+                    </p>
+                  </div>
+                </div>
+  
+                <div class="flex items-start">
+                  <div class="bg-brand-blue p-3 rounded-sm border border-brand-yellow/30 text-brand-yellow mr-4 shrink-0">
+                    <i data-lucide="phone" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase text-gray-400 tracking-wider mb-1">Phone</p>
+                    <p class="text-white font-medium text-lg">86672 38781</p>
+                  </div>
+                </div>
+  
+                <div class="flex items-start">
+                  <div class="bg-brand-blue p-3 rounded-sm border border-brand-yellow/30 text-brand-yellow mr-4 shrink-0">
+                    <i data-lucide="mail" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase text-gray-400 tracking-wider mb-1">Email</p>
+                    <a href="mailto:muthalakshmiindustries@gmail.com" class="text-white font-medium hover:text-brand-yellow transition-colors break-all">
+                      muthalakshmiindustries@gmail.com
+                    </a>
+                  </div>
+                </div>
+  
+                <div class="flex items-start">
+                  <div class="bg-brand-blue p-3 rounded-sm border border-brand-yellow/30 text-brand-yellow mr-4 shrink-0">
+                    <i data-lucide="user" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase text-gray-400 tracking-wider mb-1">Contact Person</p>
+                    <p class="text-white font-medium">K. Manikandan</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start border-t border-gray-700 pt-6">
+                  <div class="bg-brand-blue p-3 rounded-sm border border-brand-yellow/30 text-brand-yellow mr-4 shrink-0">
+                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase text-gray-400 tracking-wider mb-1">GSTIN</p>
+                    <p class="text-white font-medium font-mono">33IGCPK6326K1Z8</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Form Area -->
+            <div class="lg:col-span-2 bg-white/5 p-8 border border-white/10 backdrop-blur-sm">
+               <h4 class="text-2xl font-display font-bold text-white mb-2">Request a Quote</h4>
+               <p class="text-gray-400 mb-8">Fill out the form below and we will get back to you with a competitive quote.</p>
+               
+               <form id="contact-form" class="space-y-6">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                   <div>
+                     <label class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                     <input 
+                       type="text" 
+                       name="name"
+                       class="w-full bg-brand-blue border border-gray-700 p-3 text-white focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none transition-colors" 
+                       placeholder="Your Name" 
+                       required
+                     />
+                   </div>
+                   <div>
+                     <label class="block text-sm font-medium text-gray-400 mb-2">Phone</label>
+                     <input 
+                       type="tel" 
+                       name="phone"
+                       class="w-full bg-brand-blue border border-gray-700 p-3 text-white focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none transition-colors" 
+                       placeholder="Your Phone Number" 
+                       required
+                     />
+                   </div>
+                 </div>
+                 
+                 <div>
+                   <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                   <input 
+                     type="email" 
+                     name="email"
+                     class="w-full bg-brand-blue border border-gray-700 p-3 text-white focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none transition-colors" 
+                     placeholder="your@email.com" 
+                     required
+                   />
+                 </div>
+                 
+                 <div>
+                   <label class="block text-sm font-medium text-gray-400 mb-2">Service Required</label>
+                   <select 
+                     name="service"
+                     class="w-full bg-brand-blue border border-gray-700 p-3 text-white focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none transition-colors"
+                   >
+                      <option>VMC Work</option>
+                      <option>DRO Milling Work</option>
+                      <option>Jig & Fixture</option>
+                      <option>Jig Boring Work</option>
+                      <option>Mould & Die Works</option>
+                      <option>SPM Works</option>
+                      <option>2D & 3D Design</option>
+                      <option>Other</option>
+                   </select>
+                 </div>
+                 
+                 <div>
+                   <label class="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                   <textarea 
+                     rows="4" 
+                     name="message"
+                     class="w-full bg-brand-blue border border-gray-700 p-3 text-white focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow outline-none transition-colors" 
+                     placeholder="Describe your requirements..."
+                     required
+                   ></textarea>
+                 </div>
+                 
+                 <button 
+                   type="submit" 
+                   class="w-full bg-brand-yellow text-brand-blue font-bold py-4 uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2"
+                 >
+                   <i data-lucide="send" class="w-5 h-5"></i>
+                   Send Request via Email
+                 </button>
+                 <p class="text-xs text-center text-gray-500 mt-2">
+                   This will open your default email client to send the request to deepamtradeunion@gmail.com.
+                 </p>
+               </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="bg-brand-blueLight border-t border-gray-800 py-12 px-4 sm:px-6 lg:px-8 mt-auto">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+        <div class="mb-4 md:mb-0">
+          <span class="text-xl font-display font-bold text-white uppercase">
+            MUTHA LAKSHMI <span class="text-brand-yellow">INDUSTRIES</span>
+          </span>
+          <p class="text-sm text-gray-500 mt-2">Precision Engineering Solutions in Coimbatore.</p>
+        </div>
+        <div class="text-sm text-gray-500">
+          © <span id="year"></span> Mutha Lakshmi Industries. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/main.ts"></script>
   </body>
 </html>
